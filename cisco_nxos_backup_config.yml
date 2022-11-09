@@ -1,0 +1,25 @@
+---
+- name: Create local directory for backup
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: timestamp
+      local_action: command date +%Y%m%d
+      register: timestamp
+
+  #  - name: create local directory
+  #    file:
+  #      path: /etc/ansible/backups/{{ timestamp.stdout }}
+  #      state: directory
+  #      mode: 0755
+
+- name: Save Configurations NxOS
+  hosts: cisco-nxos
+  gather_facts: yes
+  tasks:
+    - name: save config
+      nxos_config:
+        backup: yes
+      #      debug:
+      #  msg: "{{ show_run_nxos.stdout[0] }}"
