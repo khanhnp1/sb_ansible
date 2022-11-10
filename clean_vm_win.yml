@@ -15,7 +15,7 @@
       password: "{{ vcenter_pass }}"
       validate_certs: False
       name: poc_win_vm
-      template: win_template
+      template: win10_template
       resource_pool: "Software"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
@@ -30,7 +30,7 @@
       password: "{{ vcenter_pass }}"
       validate_certs: False
       name: poc_win_vm
-      template: win_template
+      template: win10_template
       resource_pool: "Software"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm

@@ -14,7 +14,7 @@
       username: "{{ vcenter_user }}"
       password: "{{ vcenter_pass }}"
       validate_certs: False
-      name: poc_linix_vm
+      name: poc_linux_vm
       template: "linux_template"
       resource_pool: "Software"
       datacenter: "{{ datacenter_name }}"
@@ -25,7 +25,7 @@
       networks:
         - name: "PG-VLAN155"
           connected: yes
-          ip: 10.0.55.199
+          ip: 10.0.55.198
           netmask: 255.255.255.0
           gateway: 10.0.55.1
           dns_servers: 8.8.8.8
