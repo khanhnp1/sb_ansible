@@ -1,2 +1,13 @@
 [cisco-nxos]
 10.0.55.188
+
+[win]
+10.0.55.194
+
+[win:vars]
+ansible_user=khanhnp1
+ansible_password=123456
+ansible_connection=winrm
+ansible_port=5985
+ansible_winrm_transport=ntlm
+ansible_winrm_server_cert_validation=ignore
