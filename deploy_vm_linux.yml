@@ -23,11 +23,13 @@
       datastore: "AMIGO LAB2"
       state: poweredon
       networks:
-        - name: "PG-VLAN155"
-          connected: yes
-          ip: 10.0.55.198
-          netmask: 255.255.255.0
-          gateway: 10.0.55.1
-          dns_servers: 8.8.8.8
-          wait_for_ip_address: True
+      - name: "PG-VLAN155"
+        connected: yes
+        ip: 10.0.55.198
+        netmask: 255.255.255.0
+        gateway: 10.0.55.1
+        dns_servers: 8.8.8.8
+        wait_for_ip_address: True
 
+      customization:
+        dns_servers: 8.8.8.8

@@ -1,0 +1,40 @@
+---
+- hosts: linux
+  tasks:
+#  - name: Update all installed packages using YUM module
+#    yum:
+#      name: '*'
+#      state: latest
+#      update_cache: yes
+#      update_only: yes
+#    register: yum_update_status
+
+  - name: Ensure nginx packages are present
+    yum:
+      name: nginx, python-pip, python-devel, gcc
+      state: present
+    notify: restart-nginx-service
+
+  - name: Ensure uwsgi package is present
+    pip:
+      name: uwsgi
+      state: present
+    notify: restart-nginx-service
+
+  - name: Ensure nginx service is started and enabled
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+ 
+  - name: Ensure proper response from localhost can be received
+    uri:
+      url: "http://10.0.55.198:80/"
+      return_content: yes
+    register: response
+
+  handlers:
+  - name: restart-nginx-service
+    service:
+      name: nginx
+      state: restarted
