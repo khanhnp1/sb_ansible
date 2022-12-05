@@ -2,11 +2,11 @@
 - hosts: localhost
   gather_facts: no
   vars:
-    vcenter_server: "10.0.55.12"
-    vcenter_user: "software@vsphere.local"
-    vcenter_pass: "Qaz123$%^;"
-    datacenter_name: "Amigo"
-    cluster_name: "AMIGO LAB"
+    vcenter_server: "10.9.70.193"
+    vcenter_user: "administrator@vsphere.local"
+    vcenter_pass: "Anthos#123"
+    datacenter_name: "SysPoC"
+    cluster_name: "ansiblePoC_cluster"
   tasks:
   - name: Power off vm
     vmware_guest:
@@ -15,12 +15,11 @@
       password: "{{ vcenter_pass }}"
       validate_certs: False
       name: poc_linux_vm
-      template: linux_template
-      resource_pool: "Software"
+      template: "redhat-temp8.4"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB"
+      datastore: "datastore1_anthos_esxi0"
       state: powered-off
 
   - name: Delete the template
@@ -30,11 +29,10 @@
       password: "{{ vcenter_pass }}"
       validate_certs: False
       name: poc_linux_vm
-      template: linux_template
-      resource_pool: "Software"
+      template: "redhat-temp8.4"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB"
+      datastore: "datastore1_anthos_esxi0"
       state: absent
 

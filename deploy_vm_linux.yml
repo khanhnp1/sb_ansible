@@ -2,11 +2,11 @@
 - hosts: localhost
   gather_facts: no
   vars:
-    vcenter_server: "10.0.55.12"
-    vcenter_user: "software@vsphere.local"
-    vcenter_pass: "Qaz123$%^;"
-    datacenter_name: "Amigo"
-    cluster_name: "AMIGO LAB"
+    vcenter_server: "10.9.70.193"
+    vcenter_user: "administrator@vsphere.local"
+    vcenter_pass: "Anthos#123"
+    datacenter_name: "SysPoC"
+    cluster_name: "ansiblePoC_cluster"
   tasks:
   - name: Clone the template
     vmware_guest:
@@ -15,21 +15,25 @@
       password: "{{ vcenter_pass }}"
       validate_certs: False
       name: poc_linux_vm
-      template: "linux_template"
-      resource_pool: "Software"
+      template: "redhat-temp8.4"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB2"
+      datastore: "datastore1_anthos_esxi0"
       state: poweredon
       networks:
-      - name: "PG-VLAN155"
-        connected: yes
-        ip: 10.0.55.198
+      - name: "DPG_vlan_dev_60"
+        start_connected: true
+        connected: true
+        ip: 10.9.60.162
         netmask: 255.255.255.0
-        gateway: 10.0.55.1
-        dns_servers: 8.8.8.8
-        wait_for_ip_address: True
+        gateway: 10.9.60.1
+        dns_servers:
+        - 10.6.45.88
+        - 10.9.157.88
+        wait_for_ip_address: true
 
       customization:
-        dns_servers: 8.8.8.8
+        dns_servers:
+        - 10.6.45.88
+        - 10.9.157.88

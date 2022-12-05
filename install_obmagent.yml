@@ -1,0 +1,30 @@
+---
+- hosts: linux-vm
+  gather_facts: false
+  tasks:
+  - name: Rename old repo to avoid error
+    shell: "mv /etc/yum.repos.d/rhel.repo /etc/yum.repos.d/rhel.repo.bak && mv /etc/yum.repos.d/rhel1.repo /etc/yum.repos.d/rhel1.repo.bak"
+
+  - name: Add satellite to our repository
+    shell: "curl -sS --insecure 'https://satellite.seabank.com.vn/register?force=true&hostgroup_id=1&ignore_subman_errors=true&location_id=2&operatingsystem_id=1&organization_id=1&remote_execution_interface=ens192&update_packages=false' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2NjkwNzAxMjYsImp0aSI6Ijc2MTQwMTllNTZmMDhhNmFlZjk4Y2IwZDAxZDRkZmZmODk0MmQ5NTUwZDcwYzYxMTVjNmU5NmI3ZGY3NjM0ZWEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.xIbf2v1xIR84h1WEO7xhzKrrbvwTnJehvaYS1-BKbGo' | bash"
+
+  - name: install package required
+    ansible.builtin.yum:
+      name:
+        - libncurses.so.5*
+        - libnsl.so.1*
+        - m4
+        - wget
+      state: latest
+
+  - name: Download obmagent
+    ansible.builtin.get_url:
+      validate_certs: false
+      url: https://suma01.seabank.com.vn/pub/Linux2.6_X64.zip
+      dest: /root/Linux2.6_X64.zip
+
+  - name: Unzip installer
+    shell: "cd /root && unzip Linux2.6_X64.zip"
+
+  - name: Install obmagent
+    shell: "cd /root/Linux2.6_X64 && chmod u+x oasetup.sh && ./oasetup.sh -install -management_server obmgw.seabank.com.vn -certificate_server obmgw.seabank.com.vn"

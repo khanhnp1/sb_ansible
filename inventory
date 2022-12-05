@@ -1,24 +1,10 @@
-[cisco-nxos]
-10.0.55.188
+[vcenter]
+10.9.70.193
 
-[win]
-10.0.55.194
+[linux-vm]
+10.9.60.162
 
-[win:vars]
-ansible_user=khanhnp1
-ansible_password=123456
-ansible_connection=winrm
-ansible_port=5985
-ansible_winrm_transport=ntlm
-ansible_winrm_server_cert_validation=ignore
-
-[linux]
-10.0.55.198
-
-[linux:vars]
-ansible_user=khanhnp1
-ansible_password=123456
+[linux-vm:vars]
+ansible_user=root
+ansible_password=ro0t#Sbl1v3
 ansible_connection=ssh
-ansible_become=yes
-ansible_become_method=sudo
-ansible_become_pass=123456

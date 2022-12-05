@@ -1,0 +1,63 @@
+---
+- hosts: linux-vm
+  gather_facts: false
+  tasks:
+
+  - name: Download Java
+    ansible.builtin.get_url:
+      validate_certs: false
+      url: https://suma01.seabank.com.vn/pub/jdk1.8.0_241.tar.gz
+      dest: /opt/jdk1.8.0_241.tar.gz
+
+  - name: extract installer
+    shell: "cd /opt && tar -xvzf jdk1.8.0_241.tar.gz"
+
+  - name: Install Java
+    shell: "cd /opt && alternatives --install /usr/bin/java java /opt/jdk1.8.0_241/bin/java 2"
+
+  - name: Setting environtment variables
+    lineinfile:
+      path: /etc/environment
+      line: JAVA_HOME="/opt/jdk1.8.0_241/jre"
+
+  - name: Modify bashrc
+    blockinfile:
+      path: /root/.bashrc
+      block: |
+        export JAVA_HOME=/opt/jdk1.8.0_241/jre
+        export PATH=$JAVA_HOME/bin:$PATH
+
+  - name: Verify Java install
+    shell: "java -version"
+    register: java_version 
+
+  - name: Download tommcat
+    ansible.builtin.get_url:
+      validate_certs: false
+      url: https://suma01.seabank.com.vn/pub/apache-tomcat-9.0.46.tar.gz
+      dest: /opt/apache-tomcat-9.0.46.tar.gz
+
+  - name: extract installer
+    shell: "cd /opt && tar -xvzf apache-tomcat-9.0.46.tar.gz && mv apache-tomcat-9.0.46 tomcat9.0.46"
+
+  - name: create user tomcat
+    shell: "useradd -m -U -d /opt/tomcat9.0.46 -s /sbin/nologin tomcat && chown -R tomcat:tomcat /opt/tomcat9.0.46"
+
+  - name: deploy chrony.conf template
+    template:
+      src: tomcat.service.j2
+      dest: /etc/systemd/system/tomcat.service
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+
+  - name: Start service tomcat, if not started
+    ansible.builtin.service:
+      name: tomcat
+      state: started
+
+  - name: Enable service tomcat, and not touch the state
+    ansible.builtin.service:
+      name: tomcat
+      enabled: yes
