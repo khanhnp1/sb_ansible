@@ -14,27 +14,27 @@
       username: "{{ vcenter_user }}"
       password: "{{ vcenter_pass }}"
       validate_certs: False
-      name: poc_linux_vm
+      name: Ansible_demo_linux
       template: linux_template
       resource_pool: "software"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB"
+      datastore: "AMIGO LAB2"
       state: powered-off
 
-  - name: Delete the template
+  - name: Delete vm
     vmware_guest:
       hostname: "{{ vcenter_server }}"
       username: "{{ vcenter_user }}"
       password: "{{ vcenter_pass }}"
       validate_certs: False
-      name: poc_linux_vm
+      name: Ansible_demo_linux
       template: linux_template
-      resource_pool: "Software"
+      resource_pool: "software"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB"
+      datastore: "AMIGO LAB2"
       state: absent
 
