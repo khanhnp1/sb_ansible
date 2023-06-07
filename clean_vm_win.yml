@@ -20,7 +20,7 @@
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
-      datastore: "AMIGO LAB"
+      datastore: "AMIGO LAB2"
       state: powered-off
 
   - name: Delete vm
