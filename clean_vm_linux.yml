@@ -16,7 +16,7 @@
       validate_certs: False
       name: poc_linux_vm
       template: linux_template
-      resource_pool: "Software"
+      resource_pool: "software"
       datacenter: "{{ datacenter_name }}"
       folder: /{{ datacenter_name }}/vm
       cluster: "{{ cluster_name }}"
